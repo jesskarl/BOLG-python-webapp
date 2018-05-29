@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+{% block title %}{{ post.title }}{% endblock %}
+{% block navbar %}{% endblock %}
+
+{% block content %}
+
+    <div class="container" style="padding-top: 60px">
+
+        <div class="center-block">
+{% for message in get_flashed_messages() %}
+<div class="alert alert-warning">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    {{ message }}
+</div>
+{% endfor %}
+</div>
+
+
+    <div class="card">
+        <div class="page-header"><h3 align="center">{{ post.title }}</h3>
+            <h4 style="color:darkgray" align="right">—— {{ post.author.username }}</h4></div>
+    {% if post.summary %}
+        <div style="font-family:verdana; color:darkgray"><h5>“{{ post.summary }}”</h5></div>
+    {% endif %}
+        <br/>
+        {% if post.body_html %}
+        <p>{{ post.body_html | safe }}</p>
+        {% else %}
+        <p>{{ post.body }}</p>
+        {% endif %}
+        <br/>
+    </div>
+        <h3 style="padding-top: 20px; color: dimgrey">评论:</h3>
+    <div class="card">
+
+      {% include '_comments.html' %}
+            {% if current_user.is_authenticated %}
+   {{ wtf.quick_form(form) }}
+    {% endif %}
+
+    </div>
+
+
+    </div>
+{% endblock %}

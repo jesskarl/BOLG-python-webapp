@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+
+{% block title %}{{ user.username }}的空间{% endblock %}
+
+
+{% block content %}
+
+<div class="container" style="padding-top: 60px">
+
+
+<div class="center-block">
+{% for message in get_flashed_messages() %}
+<div class="alert alert-warning">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    {{ message }}
+</div>
+{% endfor %}
+</div>
+
+
+
+<div class="col-lg-9">
+
+    {% if not posts %}
+    <div><h2 align="center" style="color: dimgray">什么都没有</h2></div>
+    {% endif %}
+
+
+{% for post in posts %}
+<div class="card">
+<div class="page-header">
+    <h2>
+        {% if current_user.avatar_default %}
+        <img src="../static/avatar/default_avatar.jpg"
+          class="img-circle" style="width:50px">
+    {% else %}
+    <img src="../static/avatar/{{ post.author.avatar_url }}"
+          class="img-circle" style="width:50px;height:50px">
+    {% endif %}
+    {{ post.title }}
+    </h2>
+</div>
+    <div style="margin-bottom: 40px">
+    <p>{{ post.summary }}</p>
+    </div>
+
+<div class="post-footer">
+    <a href="{{ url_for('main.post', id=post.id) }}" target="_blank">
+        <div class="btn btn-default">阅读全文</div></a>
+
+                {% if current_user == post.author %}
+                <a href="{{ url_for('.edit', id=post.id) }}" target="_blank">
+                    <span class="label label-primary">编辑</span>
+                </a>
+                    <a href="{{ url_for('main.delete_post', id=post.id) }}">
+        <span class="label label-danger">删除</span></a>
+                {% elif current_user.is_administrator %}
+                <a href="{{ url_for('.edit', id=post.id) }}">
+                    <span class="label label-danger">Edit [Admin]</span>
+                </a>
+                {% endif %}
+        <span class="profile-edit">
+            {% if post.private %}
+            <div style="color:darkred">私密</div>
+            {% else %}
+            <div style="color:dimgray">公开</div>
+            {% endif %}
+        </span>
+</div>
+</div>
+
+<div style="padding-left: 30%;">
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.index') }}
+</div>
+{% endif %}
+</div>
+
+{% endfor %}
+
+
+
+
+</div>
+
+
+
+
+<div class="col-lg-3">
+
+<div class="card">
+<a href="{{ url_for('main.write') }}"><img src="../static/add.png"></a>
+    <font size="5">写一篇文章</font>
+</div>
+
+</div>
+
+
+
+</div>
+
+{% endblock %}
+

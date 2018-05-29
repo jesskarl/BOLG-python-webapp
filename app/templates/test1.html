@@ -1,0 +1,65 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}one{% endblock %}
+{% block body_attribs %} style="padding-top:200px" background="../static/background.jpg"{% endblock body_attribs %}
+{% block navbar %}
+    <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+    <div class="container">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle"
+        data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">toggle-navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">网站名字</a>
+    </div>
+    <div class="navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li><a href="/">主页</a></li>
+            <li><a href="/">个人</a></li>
+        </ul>
+    </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block style %}{{ super() }}
+.mainback{width:980px; height:500px; margin:0 auto; background:url(../static/backlogin.jpg) no-repeat center; overflow:hidden;}
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+
+<div class="jumbotron">
+    <p>你的浏览器{{ user_agent }}</p>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+</div>
+</div>
+{% endblock %}

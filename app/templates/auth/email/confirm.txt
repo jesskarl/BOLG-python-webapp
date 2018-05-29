@@ -1,0 +1,11 @@
+你好，{{ user.username }},
+
+很高兴您加入网站名字
+
+复制下面链接到浏览器地址栏:
+
+{{ url_for('auth.confirm', token=token, _external=True) }}
+
+祝好
+
+网站名字 团队

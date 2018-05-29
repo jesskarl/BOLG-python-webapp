@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% import "_macros.html" as macros %}
+
+{% block title %}网站名字 - {{ user.username }}{% endblock %}
+
+{% block content %}
+    <div class="container" style="padding-top: 60px">
+<div class="page-header">
+    <h1 align="center">{{ user.username }}--{{ title }}</h1>
+</div>
+<table class="table table-hover followers">
+    <thead><tr><th>用户</th><th>时间</th></tr></thead>
+    {% for follow in follows %}
+    {% if follow.user != user %}
+    <tr>
+        <td>
+            <a href="{{ url_for('.user', id = follow.user.id) }}">
+    {% if follow.user.avatar_default %}
+        <img src="../static/avatar/default_avatar.jpg"
+          class="img-circle" style="width:50px;height:50px">
+    {% else %}
+    <img src="../static/avatar/{{ follow.user.avatar_url }}"
+          class="img-circle" style="width:50px;height:50px">
+    {% endif %}
+                {{ follow.user.username }}
+            </a>
+        </td>
+        <td>{{ moment(follow.timestamp).format('L') }}</td>
+    </tr>
+    {% endif %}
+    {% endfor %}
+</table>
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, endpoint, id = user.id) }}
+</div>
+    </div>
+{% endblock %}

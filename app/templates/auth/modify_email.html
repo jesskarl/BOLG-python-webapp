@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+
+
+{% block title %}{{ current_user.username }}-更换邮箱{% endblock %}
+
+
+
+{% block page_content %}
+
+ <div class="page-header">
+    <h1>&nbsp;&nbsp;&nbsp;更换邮箱</h1>
+ </div>
+{{ wtf.quick_form(form) }}
+
+{% endblock %}

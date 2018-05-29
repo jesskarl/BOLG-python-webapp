@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "_macros.html" as macros %}
+
+
+
+
+{% block content %}
+<div style="padding: 50px 0 10px">
+<img src="../static/40.jpg" class="center-block img-responsive" width="1920">
+</div>
+
+<div class="container">
+
+
+
+<div class="center-block">
+{% for message in get_flashed_messages() %}
+<div class="alert alert-warning">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    {{ message }}
+</div>
+{% endfor %}
+</div>
+
+<div class="post-tabs" style="padding-left: 20px; padding-bottom: 10px">
+    <ul class="nav nav-tabs">
+        <li{% if not show_followed %} class="active"{% endif %}><a href="{{ url_for('.show_all') }}">全部</a></li>
+        {% if current_user.is_authenticated %}
+        <li{% if show_followed %} class="active"{% endif %}><a href="{{ url_for('.show_followed') }}">关注的人</a></li>
+        {% endif %}
+    </ul>
+</div>
+
+<div class="col-lg-9">
+
+{% for post in posts %}
+    {% if not post.private %}
+<div class="card">
+
+<div class="page-header">
+<h2>
+    {% if post.author.avatar_default %}
+        <img src="../static/avatar/default_avatar.jpg"
+          class="img-circle" style="width:50px;height:50px">
+    {% else %}
+    <img src="../static/avatar/{{ post.author.avatar_url }}"
+          class="img-circle" style="width:50px;height:50px">
+    {% endif %}
+    {{ post.title }}</h2>
+</div>
+
+
+    <div style="margin-bottom: 40px">
+    <p>{{ post.summary }}</p>
+    </div>
+
+    <a href="{{ url_for('main.post', id=post.id) }}" target="_blank">
+        <div class="btn btn-default">阅读全文</div></a>
+   {% if current_user.is_administrator() %}
+    <a href="{{ url_for('main.admin_delete_post', id=post.id) }}">
+        <div class="btn btn-default">删除</div></a>
+   {% endif %}
+    <a href="{{ url_for('main.user', id=post.author.id) }}">
+        <span class="profile-edit">作者:{{ post.author.username }}</span></a>
+</div>
+    {% endif %}
+{% endfor %}
+
+<div style="padding-left: 30%;">
+{% if pagination %}
+<div class="pagination">
+    {{ macros.pagination_widget(pagination, '.index') }}
+</div>
+{% endif %}
+</div>
+
+
+</div>
+
+
+
+
+
+
+<div class="col-lg-3">
+
+
+<div class="card">
+<h5 style="color: dimgrey">推荐文章：</h5>
+</div>
+
+
+</div>
+
+
+
+</div>
+{% endblock %}
+

@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}{{ current_user.username }}-修改个人信息{% endblock %}
+
+{% block page_content %}
+
+ <div class="page-header">
+    <h1>&nbsp;&nbsp;&nbsp;修改个人信息</h1>
+ </div>
+
+    <div class="card profile-avatar">
+    {% if user.avatar_default %}
+    <img src="../static/avatar/default_avatar.jpg"
+          width="150" height="150">
+    {% else %}
+    <img src="../static/avatar/{{ user.avatar_url }}"
+         width="150" height="150">
+    {% endif %}
+    </div>
+
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+{{ wtf.quick_form(form) }}
+    <br/>
+    <br/>
+    <br/>
+<a href="{{ url_for('auth.modify_password') }}" >修改密码</a><br/>
+<a href="{{ url_for('auth.modify_email_request') }}" >更换邮箱</a>
+    {% print im %}
+</div>
+
+</div>
+
+{% endblock %}

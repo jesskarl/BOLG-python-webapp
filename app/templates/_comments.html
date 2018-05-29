@@ -1,0 +1,45 @@
+{% if comments %}
+<ul class="comments">
+    {% for comment in comments %}
+    <li class="comment">
+        <div class="comment-thumbnail">
+            <a href="{{ url_for('.user', id=comment.author.id) }}">
+                    {% if comment.author.avatar_default %}
+        <img src="../static/avatar/default_avatar.jpg"
+          class="img-rounded" style="width:50px;height:50px">
+    {% else %}
+    <img src="../static/avatar/{{ comment.author.avatar_url }}"
+          class="img-rounded" style="width:50px;height:50px">
+    {% endif %}
+          </a>
+        </div>
+        <div class="comment-content" style="padding-left: 10px">
+            <div class="comment-date">{{ moment(comment.timestamp).fromNow() }}</div>
+            <div class="comment-author"><a href="{{ url_for('.user', id=comment.author.id) }}">{{ comment.author.username }}</a></div>
+            <div class="comment-body">
+                {% if comment.disable %}
+                <p><i>此评论已经被删除.</i></p>
+                {% endif %}
+                {% if moderate or not comment.disable %}
+                    {% if comment.body_html %}
+                        {{ comment.body_html | safe }}
+                    {% else %}
+                        {{ comment.body }}
+                    {% endif %}
+                {% endif %}
+            </div>
+            {% if moderate %}
+                <br>
+                {% if comment.disable %}
+                <a class="btn btn-default btn-xs" href="{{ url_for('.moderate_enable', id=comment.id, page=page) }}">Enable</a>
+                {% else %}
+                <a class="btn btn-danger btn-xs" href="{{ url_for('.moderate_disable', id=comment.id, page=page) }}">Disable</a>
+                {% endif %}
+            {% endif %}
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+    {% else %}
+    <h4 style="color: dimgray" align="center">还没有评论...</h4>
+    {% endif %}
